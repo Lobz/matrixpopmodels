@@ -27,7 +27,10 @@ mattype <- function(mat){
         return("err")
     }
 
-    if(sum(rowSums(mat)==0)>0) return("buraco")
+    # esta linha verifica se existe algum elemento não-diagonal não-nulo 
+    # em cada uma das linhas da matriz. 
+    # se não existir, isso significa que há um estágio inatingível.
+    if(sum(rowSums((mat-diag(diag(mat)))!=0)==0)>0) return("buraco")
 
     if(n==2) return("dim2")
 
