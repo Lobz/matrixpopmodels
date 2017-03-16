@@ -11,13 +11,13 @@ mt <- function(i){mattype(compadre$mat[[i]]$matA)}
 types <- as.factor(sapply(1:length(compadre$mat),mt))
 
 # matrizes simples de lefkovitch
-for(i in which(types=="base"){
+for(i in which(types=="base")){
     plot.species.matrix(i)
     Sys.sleep(1)
 }
 
 # matrizes esquisitas
-for(i in which(types=="buraco"){
+for(i in which(types=="buraco")){
     plot.species.matrix(i)
     Sys.sleep(1)
 }
