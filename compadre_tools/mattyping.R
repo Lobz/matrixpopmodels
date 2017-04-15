@@ -1,4 +1,6 @@
 
+perc <- function(v) {round((summary(v)/length(v))*100,2)}
+
 has.na <- function(mat){length(mat[is.na(mat)])>0}
 
 submatrices <- function(mat){
@@ -82,7 +84,6 @@ diagonal.zeroes <- function(mat) {
 dz<-function(m){diagonal.zeroes(m$matA)}
 
 library(Matrix)
-library(facilitation)
 
 isDiagonalizable<-function(A){
     tryCatch(

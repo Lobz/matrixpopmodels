@@ -76,15 +76,17 @@ see.mat <- function(mat,show.values=T,show.zeroes=F,digits=4,...){
 #' see.mat
 plot.species.matrix<- function(i,db=compadre, ...){
     mat<-db$mat[[i]]
-    info<-db$metadata
+    info<-db$metadata[i,]
 
+    ### make the label
+    lab <- paste(info$OrganismType," - ",info$Family," - ",info$Country,"\n")
     n <- nrow(mat$matA)
     criteria <- c("Age","Ontogeny","Size")
-    select <- c(info$MatrixCriteriaAge[[i]]=="Yes",
-                info$MatrixCriteriaOntogeny[[i]]=="Yes",
-                info$MatrixCriteriaSize[[i]]!="No")
+    select <- c(info$MatrixCriteriaAge=="Yes",
+                info$MatrixCriteriaOntogeny=="Yes",
+                info$MatrixCriteriaSize!="No")
     criteria<-criteria[select]
-    lab<- paste(n,"stages based on",criteria[1])
+    lab<- paste(lab,n,"stages based on",criteria[1])
     if(length(criteria)==2){
         lab<-paste0(lab," and ",criteria[2])
     }
@@ -94,7 +96,7 @@ plot.species.matrix<- function(i,db=compadre, ...){
     if(select[3]==T){
         plot.new()
         if ((sw<-strwidth(lab))<(plotwidth<-17)) { # size
-            criteria<- info$MatrixCriteriaSize[[i]]
+            criteria<- info$MatrixCriteriaSize
             if(strwidth(criteria)+sw>plotwidth){ # trim the criteria string
                 num <- round((plotwidth-sw)/.221)
                 criteria<- paste0(strtrim(criteria,num),"...")
@@ -102,11 +104,18 @@ plot.species.matrix<- function(i,db=compadre, ...){
             lab <- paste0(lab," (",criteria,")")
         }
     }
+    ## TO DO: show the stages somehow
+        #stages <- compadre$matrixClass[[i]]$MatrixClassAuthor
+        #for(i in 1:n){
+            #lab <- paste0(lab,"\nStage ",i,": ",stages[i])
+        #}
 
+    # Plot the matrix
     see.mat(mat,xlab=lab,...)
 
-    sp<- info$SpeciesAccepted[[i]]
-    authors <- strsplit(info$Authors[[i]],";")[[1]]
+    # Make the title
+    sp<- info$SpeciesAccepted
+    authors <- strsplit(info$Authors,";")[[1]]
     if(length(authors)==2){
         authors <- paste0(authors,collapse=" and")
     }
@@ -116,8 +125,8 @@ plot.species.matrix<- function(i,db=compadre, ...){
     else {
         authors <- paste0(authors[1]," et al.")
     }
-    year<- info$YearPublication[[i]]
+    year<- info$YearPublication
     study <- paste0("(",authors,", ",year,")")
-    title(paste(study,sp))
+    title(paste(sp,"\n",study))
 }
 

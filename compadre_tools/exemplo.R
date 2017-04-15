@@ -21,3 +21,9 @@ for(i in which(types=="buraco")){
     plot.species.matrix(i)
     Sys.sleep(1)
 }
+
+### classificação do r
+lr <- function(m){ tryCatch(eigen(m$matA)$values[1],error=function(e)NA) }
+limr <- function(m){ tryCatch(limiting.rate(m$matA),error=function(e)NA) }
+
+ee <- sapply(compadre$mat,lr)
